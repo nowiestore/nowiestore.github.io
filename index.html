@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NowieStore - Top Up Game Murah & Cepat. Mobile Legends, Free Fire, PUBG, Genshin Impact dan banyak lagi.">
+  <title>NowieStore — Top Up Game Murah & Cepat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700;800&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0c14;
+      color: #e8eaf0;
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: clamp(3rem, 8vw, 5rem) 1.5rem clamp(2.5rem, 6vw, 4rem);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,160,0,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255,160,0,0.1);
+      border: 1px solid rgba(255,160,0,0.3);
+      color: #ffa000;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border-radius: 2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 {
+      font-family: 'Oxanium', sans-serif;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: 0.03em;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 span { color: #ffa000; }
+
+    .hero p {
+      font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+      color: #8b92a8;
+      max-width: 520px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: clamp(1.5rem, 5vw, 3rem);
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-num {
+      font-family: 'Oxanium', sans-serif;
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      font-weight: 700;
+      color: #ffa000;
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 0.7rem;
+      color: #6b7280;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 clamp(1rem, 4vw, 2rem) 3rem;
+    }
+
+    .section-title {
+      font-family: 'Oxanium', sans-serif;
+      font-size: clamp(1.1rem, 3vw, 1.3rem);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      color: #e8eaf0;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* ── GAME GRID ── */
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+
+    @media (max-width: 380px) {
+      .game-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .game-card {
+      position: relative;
+      background: #12151f;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.25rem 0.75rem 1rem;
+      gap: 0.75rem;
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+      cursor: pointer;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,160,0,0.4);
+      box-shadow: 0 8px 32px rgba(255,160,0,0.12);
+    }
+
+    .game-card:active { transform: translateY(-2px); }
+
+    .game-img-wrap {
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #1c2030;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .game-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .game-name {
+      font-family: 'Oxanium', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-align: center;
+      color: #e8eaf0;
+      letter-spacing: 0.03em;
+      line-height: 1.3;
+    }
+
+    .game-currency {
+      font-size: 0.68rem;
+      color: #ffa000;
+      background: rgba(255,160,0,0.1);
+      border: 1px solid rgba(255,160,0,0.2);
+      padding: 0.2rem 0.6rem;
+      border-radius: 2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .game-card-arrow {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      color: #3d4251;
+      font-size: 0.75rem;
+      transition: color 0.2s;
+    }
+
+    .game-card:hover .game-card-arrow { color: #ffa000; }
+
+    .game-card--soon {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .game-card-soon-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #3d4251;
+      color: #8b92a8;
+      font-size: 0.55rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0 14px 0 8px;
+    }
+
+    /* ── KEUNGGULAN ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .feature-card {
+      background: #12151f;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+    }
+
+    .feature-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .feature-title {
+      font-family: 'Oxanium', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #e8eaf0;
+      margin-bottom: 0.3rem;
+    }
+
+    .feature-desc {
+      font-size: 0.75rem;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, #1a1a08 0%, #12151f 50%, #0a1a0a 100%);
+      border: 1px solid rgba(255,160,0,0.2);
+      border-radius: 18px;
+      padding: clamp(1.5rem, 5vw, 2.5rem);
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,160,0,0.07), transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-banner h2 {
+      font-family: 'Oxanium', sans-serif;
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+      font-weight: 800;
+      margin-bottom: 0.6rem;
+    }
+
+    .cta-banner p {
+      font-size: 0.85rem;
+      color: #8b92a8;
+      margin-bottom: 1.3rem;
+    }
+
+    .cta-wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #25d366;
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.75rem 1.8rem;
+      border-radius: 2rem;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+    }
+
+    .cta-wa-btn:hover {
+      background: #1ebe5d;
+      transform: translateY(-2px);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero { animation: fadeUp 0.5s ease both; }
+    .game-card { animation: fadeUp 0.4s ease both; }
+    .game-card:nth-child(1)  { animation-delay: 0.05s; }
+    .game-card:nth-child(2)  { animation-delay: 0.1s; }
+    .game-card:nth-child(3)  { animation-delay: 0.15s; }
+    .game-card:nth-child(4)  { animation-delay: 0.2s; }
+    .game-card:nth-child(5)  { animation-delay: 0.25s; }
+    .game-card:nth-child(6)  { animation-delay: 0.3s; }
+    .game-card:nth-child(7)  { animation-delay: 0.35s; }
+    .game-card:nth-child(8)  { animation-delay: 0.4s; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">⚡ Top Up Instan</div>
+  <h1>Top Up Game<br><span>Murah & Cepat</span></h1>
+  <p>Pilih game favoritmu dan top up dalam hitungan menit. Harga terbaik, proses otomatis, 100% aman.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">10+</div>
+      <div class="hero-stat-label">Game Tersedia</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">24/7</div>
+      <div class="hero-stat-label">Layanan CS</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">100%</div>
+      <div class="hero-stat-label">Aman & Terpercaya</div>
+    </div>
+  </div>
+</section>
+
+<!-- GAME LIST -->
+<div class="section">
+  <h2 class="section-title">🎮 Pilih Game</h2>
+  <div class="game-grid">
+
+    <a href="ml.html" class="game-card">
+      <span class="game-card-arrow">›</span>
+      <div class="game-img-wrap">
+        <img src="https://nowiestore.github.io/mobilelegend.png" alt="Mobile Legends" onerror="this.style.display='none';this.parentElement.innerHTML='🗡️'">
+      </div>
+      <span class="game-name">Mobile Legends</span>
+      <span class="game-currency">Diamonds</span>
+    </a>
+
+    <a href="freefire.html" class="game-card">
+      <span class="game-card-arrow">›</span>
+      <div class="game-img-wrap">
+        <img src="https://nowiestore.github.io/freefire.webp" alt="Free Fire" onerror="this.style.display='none';this.parentElement.innerHTML='🔥'">
+      </div>
+      <span class="game-name">Free Fire</span>
+      <span class="game-currency">Diamonds</span>
+    </a>
+
+    <a href="pubg.html" class="game-card">
+      <span class="game-card-arrow">›</span>
+      <div class="game-img-wrap">
+        <img src="https://nowiestore.github.io/pubg.png" alt="PUBG Mobile" onerror="this.style.display='none';this.parentElement.innerHTML='🪖'">
+      </div>
+      <span class="game-name">PUBG Mobile</span>
+      <span class="game-currency">UC</span>
+    </a>
+
+    <a href="genshin.html" class="game-card">
+      <span class="game-card-arrow">›</span>
+      <div class="game-img-wrap">
+        <img src="https://nowiestore.github.io/genshin.png" alt="Genshin Impact" onerror="this.style.display='none';this.parentElement.innerHTML='✨'">
+      </div>
+      <span class="game-name">Genshin Impact</span>
+      <span class="game-currency">Genesis Crystals</span>
+    </a>
+
+    <a href="honkai.html" class="game-card">
+      <span class="game-card-arrow">›</span>
+      <div class="game-img-wrap">
+        <img src="https://nowiestore.github.io/honkaistar.png" alt="Honkai Star Rail" onerror="this.style.display='none';this.parentElement.innerHTML='🌟'">
+      </div>
+      <span class="game-name">Honkai Star Rail</span>
+      <span class="game-currency">Oneiric Shards</span>
+    </a>
+
+    <a href="roblox.html" class="game-card">
+      <span class="game-card-arrow">›</span>
+      <div class="game-img-wrap">
+        <img src="https://nowiestore.github.io/roblox.png" alt="Roblox" onerror="this.style.display='none';this.parentElement.innerHTML='🟥'">
+      </div>
+      <span class="game-name">Roblox</span>
+      <span class="game-currency">Robux</span>
+    </a>
+
+  </div>
+</div>
+
+<!-- KEUNGGULAN -->
+<div class="section">
+  <h2 class="section-title">⭐ Kenapa NowieStore?</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">⚡</span>
+      <div>
+        <div class="feature-title">Proses Cepat</div>
+        <div class="feature-desc">Top up diproses dalam hitungan menit setelah pembayaran dikonfirmasi.</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">💰</span>
+      <div>
+        <div class="feature-title">Harga Terjangkau</div>
+        <div class="feature-desc">Harga kompetitif, bisa lebih murah dari toko resmi untuk paket tertentu.</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🛡️</span>
+      <div>
+        <div class="feature-title">100% Aman</div>
+        <div class="feature-desc">Transaksi diproses dengan aman, akun game kamu tidak pernah terancam.</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">💬</span>
+      <div>
+        <div class="feature-title">CS Responsif</div>
+        <div class="feature-desc">Tim CS kami siap membantu via WhatsApp 24 jam setiap hari.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="section">
+  <div class="cta-banner">
+    <h2>Ada pertanyaan atau butuh bantuan? 💬</h2>
+    <p>Hubungi CS kami langsung via WhatsApp, kami siap membantu kamu.</p>
+    <a href="https://wa.me/6281293106630?text=Halo%20NowieStore%2C%20saya%20mau%20tanya%20seputar%20top%20up%20game." target="_blank" class="cta-wa-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Chat WhatsApp Sekarang
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>
+
+<script>
+  // Load header & footer
+  function loadComponent(id, file) {
+    fetch('components/' + file)
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById(id).innerHTML = html;
+        // Jalankan script dalam komponen
+        document.getElementById(id).querySelectorAll('script').forEach(s => {
+          var ns = document.createElement('script');
+          ns.textContent = s.textContent;
+          document.body.appendChild(ns);
+        });
+      })
+      .catch(() => {
+        // Fallback jika fetch gagal (buka file lokal langsung)
+        if (id === 'header-placeholder') {
+          document.getElementById(id).innerHTML = '<div style="height:64px;background:#0a0c14;border-bottom:1px solid rgba(255,160,0,0.15);display:flex;align-items:center;padding:0 1.5rem;font-family:Oxanium,sans-serif;color:#ffa000;font-weight:800;font-size:1.2rem;">⚡ NowieStore</div>';
+        }
+      });
+  }
+
+  loadComponent('header-placeholder', 'header.html');
+  loadComponent('footer-placeholder', 'footer.html');
+</script>
+
+</body>
+</html>
