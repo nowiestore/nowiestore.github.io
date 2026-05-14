@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NowieStore - Top Up Game Murah & Cepat.">
+  <title>NowieStore — Top Up Game Murah & Cepat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #fff0f5;
+      color: #3a1a2e;
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: clamp(2.5rem, 7vw, 4rem) 1.5rem clamp(2rem, 5vw, 3rem);
+      background: linear-gradient(160deg, #ffe4f0 0%, #ffd6e8 60%, #fce4ff 100%);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(255,100,160,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(212,32,117,0.1);
+      border: 1px solid rgba(212,32,117,0.25);
+      color: #d42075;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border-radius: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2.2rem, 7vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 0.7rem;
+      color: #d42075;
+      text-shadow: 2px 3px 0px rgba(212,32,117,0.15);
+    }
+
+    .hero p {
+      font-size: clamp(0.88rem, 2.5vw, 1rem);
+      color: #a0547a;
+      max-width: 480px;
+      margin: 0 auto 1.8rem;
+      line-height: 1.7;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: clamp(1.5rem, 5vw, 3rem);
+      flex-wrap: wrap;
+    }
+
+    .hero-stat-num {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.4rem, 4vw, 1.9rem);
+      color: #d42075;
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 0.68rem;
+      color: #c07090;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    .section {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 2rem clamp(1rem, 4vw, 1.5rem);
+    }
+
+    .section-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.2rem;
+      color: #d42075;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(212,32,117,0.3), transparent);
+      border-radius: 2px;
+    }
+
+    /* 3 kolom, tidak ada ruang kosong */
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+    }
+
+    .game-card {
+      position: relative;
+      background: #fff;
+      border: 2px solid rgba(212,32,117,0.12);
+      border-radius: 16px;
+      overflow: hidden;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.1rem 0.5rem 0.9rem;
+      gap: 0.55rem;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 12px rgba(212,32,117,0.07);
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(212,32,117,0.4);
+      box-shadow: 0 8px 28px rgba(212,32,117,0.15);
+    }
+
+    .game-card:active { transform: translateY(-2px); }
+
+    .game-img-wrap {
+      width: 60px;
+      height: 60px;
+      border-radius: 13px;
+      overflow: hidden;
+      background: #ffe4f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      flex-shrink: 0;
+      border: 1.5px solid rgba(212,32,117,0.1);
+    }
+
+    .game-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .game-name {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-align: center;
+      color: #3a1a2e;
+      line-height: 1.25;
+    }
+
+    .game-currency {
+      font-size: 0.6rem;
+      color: #d42075;
+      background: rgba(212,32,117,0.08);
+      border: 1px solid rgba(212,32,117,0.18);
+      padding: 0.15rem 0.5rem;
+      border-radius: 2rem;
+      font-weight: 700;
+    }
+
+    .game-card-arrow {
+      position: absolute;
+      top: 0.45rem;
+      right: 0.5rem;
+      color: #e8b4cc;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+
+    .game-card:hover .game-card-arrow { color: #d42075; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+    }
+
+    .feature-card {
+      background: #fff;
+      border: 1.5px solid rgba(212,32,117,0.1);
+      border-radius: 14px;
+      padding: 1rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      box-shadow: 0 2px 10px rgba(212,32,117,0.06);
+    }
+
+    .feature-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .feature-title { font-size: 0.82rem; font-weight: 800; color: #d42075; margin-bottom: 0.2rem; }
+    .feature-desc { font-size: 0.71rem; color: #a0547a; line-height: 1.6; }
+
+    .cta-banner {
+      background: linear-gradient(135deg, #ffd6e8, #fce4ff);
+      border: 2px solid rgba(212,32,117,0.2);
+      border-radius: 18px;
+      padding: clamp(1.4rem, 4vw, 2rem);
+      text-align: center;
+    }
+
+    .cta-banner h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.1rem, 4vw, 1.4rem);
+      font-weight: 400;
+      color: #d42075;
+      margin-bottom: 0.4rem;
+    }
+
+    .cta-banner p { font-size: 0.82rem; color: #a0547a; margin-bottom: 1.1rem; }
+
+    .cta-wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: #25d366;
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.88rem;
+      padding: 0.7rem 1.6rem;
+      border-radius: 2rem;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.3);
+    }
+
+    .cta-wa-btn:hover { background: #1ebe5d; transform: translateY(-2px); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero { animation: fadeUp 0.5s ease both; }
+    .game-card:nth-child(1) { animation: fadeUp 0.4s 0.05s ease both; }
+    .game-card:nth-child(2) { animation: fadeUp 0.4s 0.12s ease both; }
+    .game-card:nth-child(3) { animation: fadeUp 0.4s 0.19s ease both; }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<section class="hero">
+  <div class="hero-badge">⚡ Top Up Instan</div>
+  <h1>Nowie Store</h1>
+  <p>Top up game favoritmu dengan harga terjangkau, proses cepat, dan 100% aman.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">24/7</div>
+      <div class="hero-stat-label">Layanan CS</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">Fast</div>
+      <div class="hero-stat-label">Proses Order</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">100%</div>
+      <div class="hero-stat-label">Aman & Terpercaya</div>
+    </div>
+  </div>
+</section>
+
+<div class="section">
+  <h2 class="section-title">🎮 Pilih Kategori</h2>
+  <div class="game-grid">
+
+    <a href="https://nowiestore.github.io/mobilelegend/" class="game-card">
+      <span class="game-card-arrow">›</span>
+      <div class="game-img-wrap">
+        <img src="https://nowiestore.github.io/mobilelegend.png" alt="Mobile Legends" onerror="this.style.display='none';this.parentElement.innerHTML='🗡️'">
+      </div>
+      <span class="game-name">Mobile Legends</span>
+      <span class="game-currency">Diamonds</span>
+    </a>
+
+    <a href="https://nowiestore.github.io/roblox/" class="game-card">
+      <span class="game-card-arrow">›</span>
+      <div class="game-img-wrap">
+        <img src="https://nowiestore.github.io/roblox.png" alt="Roblox" onerror="this.style.display='none';this.parentElement.innerHTML='🟥'">
+      </div>
+      <span class="game-name">Roblox</span>
+      <span class="game-currency">Robux</span>
+    </a>
+
+    <a href="https://nowiestore.github.io/apkpremium/" class="game-card">
+      <span class="game-card-arrow">›</span>
+      <div class="game-img-wrap">
+        <img src="https://www.gstatic.com/android/market_images/web/play_prism_holo_dark_2x.png" alt="APK Premium" onerror="this.style.display='none';this.parentElement.innerHTML='📱'">
+      </div>
+      <span class="game-name">APK Premium</span>
+      <span class="game-currency">Aplikasi & Games</span>
+    </a>
+
+  </div>
+</div>
+
+<div class="section" style="padding-top:0">
+  <h2 class="section-title">⭐ Kenapa NowieStore?</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">⚡</span>
+      <div><div class="feature-title">Proses Cepat</div><div class="feature-desc">Top up diproses dalam hitungan menit setelah konfirmasi.</div></div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">💰</span>
+      <div><div class="feature-title">Harga Murah</div><div class="feature-desc">Harga kompetitif, lebih hemat dari toko resmi.</div></div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🛡️</span>
+      <div><div class="feature-title">100% Aman</div><div class="feature-desc">Transaksi aman, akun game tidak pernah terancam.</div></div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">💬</span>
+      <div><div class="feature-title">CS Responsif</div><div class="feature-desc">Siap bantu via WhatsApp setiap saat.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="padding-top:0">
+  <div class="cta-banner">
+    <h2>Ada pertanyaan? 💬</h2>
+    <p>Hubungi CS kami langsung via WhatsApp, siap membantu kamu.</p>
+    <a href="https://wa.me/6281293106630?text=Halo%20NowieStore%2C%20saya%20mau%20tanya%20seputar%20top%20up." target="_blank" class="cta-wa-btn">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Chat WhatsApp Sekarang
+    </a>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script>
+  function loadComponent(id, url) {
+    fetch(url)
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById(id).innerHTML = html;
+        document.getElementById(id).querySelectorAll('script').forEach(s => {
+          var ns = document.createElement('script');
+          ns.textContent = s.textContent;
+          document.body.appendChild(ns);
+        });
+      })
+      .catch(() => {
+        if (id === 'header-placeholder') {
+          document.getElementById(id).innerHTML = '<div style="height:64px;background:#fff0f5;border-bottom:2px solid rgba(212,32,117,0.15);display:flex;align-items:center;padding:0 1.5rem;font-family:Fredoka One,cursive;color:#d42075;font-size:1.4rem;">🌸 NowieStore</div>';
+        }
+      });
+  }
+  loadComponent('header-placeholder', 'https://nowiestore.github.io/header.html');
+  loadComponent('footer-placeholder', 'https://nowiestore.github.io/footer.html');
+</script>
+</body>
+</html>
